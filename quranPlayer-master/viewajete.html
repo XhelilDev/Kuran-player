@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran Player</title>
+    <link rel="shortcut icon" href="#">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+      
+        <div class="container">
+
+            <div id="todo">
+
+            </div>
+        </div> 
+
+   
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script type="module" src="./main.js">
+
+        const query_string_raw=document.URL.split('?')
+        const query_string=new URLSearchParams(query_string_raw[1]);
+
+        if(!query_string.has('number')){
+            alert('Id is not defined')
+        }else{
+            const number=query_string.get('number')
+
+
+     const ap_url=`https://quranapi.idn.sch.id/surah/${number}`
+
+//Fetch To Get Surahs data
+fetch(ap_url)
+ .then(response => response.json())
+ .then(data=>{
+    const surah=data.ayahs
+    for(let i=0;i<surah.length;i++){
+        const ajet_div=document.querySelector('#todo')
+        ajet_div.innerHTML+=
+        `
+        <p>Ajet Nr:${surah[i].verseId}</p>
+        <p>Nr:${surah[i].enText}</p>
+        <p>Arab:${surah[i].ayahText}</p>
+
+      <p><a href="${surah[i].audio}" target="_blank">Me Ze</a></p>
+      
+      <p>Ajete:${number}</p>
+
+      
+      `
+    }
+ })
+        }
+ 
+      
+    </script>
+</body>
+</html>
